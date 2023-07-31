@@ -2,12 +2,13 @@
 
 import axios from "axios";
 import * as z from "zod";
-import { MessageSquare } from "lucide-react";
+import { Code, MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 import { useState } from "react";
+import  ReactMarkdown from "react-markdown";
 
 import { Heading } from "@/components/heading";
 import { 
@@ -30,7 +31,7 @@ import { cn } from "@/lib/utils";
 
 
 
-const ConversationPage = () => {
+const CodePage = () => {
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
@@ -40,7 +41,9 @@ const ConversationPage = () => {
         }
     });
 
+    // Indicate to the app that the from is loading if the prompt the user entered is still submitting
     const isLoading = form.formState.isSubmitting;
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             // Modify local messages and create post request to Open AI API
@@ -50,7 +53,7 @@ const ConversationPage = () => {
             const newMessages = [...messages, userMessage];
 
             // Create an API Call
-            const response = await axios.post("/api/conversation", { messages: newMessages });
+            const response = await axios.post("/api/code", { messages: newMessages });
 
             setMessages((current) => [...current, userMessage, response.data]);
 
@@ -67,11 +70,11 @@ const ConversationPage = () => {
     return (
         <div>
             <Heading 
-                title="Conversation"
-                description="Conversations that are as smart as you are."
-                icon={MessageSquare}
-                iconColor="text-violet-500"
-                bgColor="bg-violet-500/10"
+                title="Code Generation"
+                description="Let Akili help you code."
+                icon={Code}
+                iconColor="text-green-700"
+                bgColor="bg-green-700/10"
             />
             <div className="px-4 lg:px-8">
                 <div>
@@ -135,9 +138,22 @@ const ConversationPage = () => {
                                 )}
                                 >
                                 {message.role == "user" ? <UserAvatar /> : <BotAvatar />}
-                                <p className="text-sm">
-                                    {message.content}
-                                </p>
+                                <ReactMarkdown
+                                    components={{
+                                        pre: ({ node, ...props}) => (
+                                            <div className="overflow-auto w-full my-2
+                                            bg-black/10 p-2 rounded-lg">
+                                                <pre {...props} />
+                                            </div>
+                                        ),
+                                        code: ({ node, ...props }) => (
+                                            <code className="bg-black/10 rounded-lg p-1" {...props} />
+                                        )
+                                    }}
+                                    className="text-sm overflow-hidden leading-7"
+                                >
+                                    {message.content || ""}
+                                </ReactMarkdown>
                             </div>
                         ))}
                     </div>
@@ -148,4 +164,4 @@ const ConversationPage = () => {
 }
 
 export default
-ConversationPage;
+CodePage;
