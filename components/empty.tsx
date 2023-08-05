@@ -8,7 +8,7 @@ export const Empty = ({
     label
 }: EmptyProps) => {
     return (
-        <div className="h-full p-20 flex flex-xol items-center
+        <div className="h-full p-20 flex flex-col items-center
         justify-center">
             <div className="relative h-80 w-80">
                 <Image 
@@ -16,6 +16,9 @@ export const Empty = ({
                     fill
                     src="/empty.png"
                 />
+                <p className="text-muted-foreground text-sm text-center">
+                    {label}
+                </p>
             </div>
         </div>
     );
