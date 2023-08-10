@@ -87,8 +87,8 @@ const ImagePage = () => {
                 title="Image Generation"
                 description="Your words are worth a thousand pictures."
                 icon={ImageIcon}
-                iconColor="text-sky-700"
-                bgColor="bg-sky-700/10"
+                iconColor="text-yellow-900"
+                bgColor="bg-yellow-900/10"
             />
             <div className="px-4 lg:px-8">
                 <div>
