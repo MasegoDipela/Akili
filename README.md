@@ -3,6 +3,8 @@
 
 Akili is an innovative software application that empowers users to harness the power of AI with ease. It provides access to various AI services, enabling you to interact with OpenAI's GPT-3.5 Turbo model for conversational purposes, generate AI-generated images, and even create code in markdown using AI capabilities. This README.md file provides an overview of the application, its services, and the tech stack used to build it.
 
+## Video Demo: https://youtu.be/EAgW6YCqjH4
+
 
 ## Features and Services
 
